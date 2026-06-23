@@ -50,7 +50,6 @@ export const AdminLayout = () => {
     { path: '/admin/media', label: 'Media Library', icon: FiImage },
     { path: '/admin/certificates', label: 'Transfer Certificates', icon: FiAward },
     { path: '/admin/settings', label: 'Global Settings', icon: FiSettings },
-    { path: '/admin/backups', label: 'Database Backups', icon: FiDatabase },
     { path: '/admin/contact-submissions', label: 'Contact Inquiries', icon: FiMail },
     { path: '/admin/change-password', label: 'Change Password', icon: FiLock }
   ];

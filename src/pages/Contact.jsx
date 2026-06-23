@@ -2,15 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiMail, FiPhoneCall, FiMapPin, FiSend, FiCheckCircle, FiAlertCircle, FiRefreshCw } from 'react-icons/fi';
 import { contactInfo } from '../components/navigation/NavigationConfig';
-import { cmsApi } from '../cms/api.js';
+import { useSettings } from '../contexts/SettingsContext.jsx';
 import emailjs from '@emailjs/browser';
 
 const Contact = () => {
-  const [settings, setSettings] = useState({});
-
-  useEffect(() => {
-    cmsApi.getSettings().then(setSettings).catch(console.error);
-  }, []);
+  const { settings } = useSettings();
 
   const email = settings.email || contactInfo.email;
   const phone = settings.phone || contactInfo.phone;

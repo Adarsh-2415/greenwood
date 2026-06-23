@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { adminApi } from './adminApi.js';
 import { FiSearch, FiUpload, FiTrash2, FiEdit, FiX, FiCheck, FiFolder, FiImage, FiAlertTriangle } from 'react-icons/fi';
+import { galleryItems } from '../pages/Gallery.jsx';
 
 export const MediaLibrary = () => {
   const [media, setMedia] = useState([]);
@@ -106,6 +107,39 @@ export const MediaLibrary = () => {
     }
   };
 
+  const handleSyncGallery = async () => {
+    if (!window.confirm("This will securely upload all 45 local gallery images into your database. Depending on your connection, this may take 1-2 minutes. Continue?")) return;
+    setUploading(true);
+    let successCount = 0;
+    try {
+      for (const item of galleryItems) {
+        try {
+          const response = await fetch(item.src);
+          if (!response.ok) continue;
+          const blob = await response.blob();
+          
+          const fileName = item.src.split('/').pop() || 'gallery_image.jpg';
+          const file = new File([blob], fileName, { type: blob.type });
+          
+          const formData = new FormData();
+          formData.append('files', file);
+          formData.append('category', 'gallery');
+          
+          await adminApi.uploadMedia(formData);
+          successCount++;
+        } catch (err) {
+          console.error(`Failed to migrate ${item.src}`, err);
+        }
+      }
+      alert(`Successfully migrated ${successCount} images into the Database! You can now delete them or manage them here.`);
+      fetchMedia();
+    } catch (err) {
+      alert("Migration failed: " + err.message);
+    } finally {
+      setUploading(false);
+    }
+  };
+
   return (
     <div className="space-y-6 select-none relative">
       
@@ -117,7 +151,17 @@ export const MediaLibrary = () => {
             Upload and organize media, images, brochures, and PDFs for your pages.
           </p>
         </div>
-        <div className="w-full sm:w-auto">
+        <div className="w-full sm:w-auto flex items-center gap-3">
+          <button
+            onClick={handleSyncGallery}
+            disabled={uploading}
+            className="flex items-center justify-center gap-2 px-5 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold text-sm rounded-xl transition-all shadow-sm cursor-pointer disabled:opacity-50"
+            title="Import hardcoded 45 images into CMS database"
+          >
+            <FiUpload className="w-4 h-4 text-school-red" />
+            <span>Sync Original Gallery</span>
+          </button>
+          
           <label className="flex items-center justify-center gap-2 px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-gray-900 font-bold text-sm rounded-xl transition-all shadow-md shadow-amber-500/10 cursor-pointer">
             <FiUpload className="w-4 h-4" />
             <span>{uploading ? 'Uploading...' : 'Upload File'}</span>
@@ -156,7 +200,7 @@ export const MediaLibrary = () => {
           onChange={(e) => { setCategory(e.target.value); setPage(1); }}
           className="bg-white border border-gray-200 rounded-xl py-1.5 px-3 text-xs font-bold text-gray-600 outline-none w-full sm:w-auto"
         >
-          <option value="">All Categories</option>
+          <option value="">Uncategorized (Other)</option>
           <option value="image">Images</option>
           <option value="document">Documents / PDFs</option>
           <option value="video">Videos</option>

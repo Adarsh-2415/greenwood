@@ -1,6 +1,7 @@
 // src/App.jsx
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { SettingsProvider, useSettings } from './contexts/SettingsContext.jsx';
 
 // Public Components & Pages
 import Header from './components/navigation/Header';
@@ -32,7 +33,7 @@ import ContactSubmissions from './admin/ContactSubmissions.jsx';
 import ResetPassword from './admin/ResetPassword.jsx';
 import ChangePassword from './admin/ChangePassword.jsx';
 
-import { cmsApi } from './cms/api.js';
+
 
 // Scroll Helper: automatically scrolls the page to top on navigation triggers
 const ScrollToTop = () => {
@@ -64,19 +65,11 @@ const PageLayout = ({ title, subtitle }) => {
 
 const AppContent = () => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const [settings, setSettings] = useState({});
+  const { settings } = useSettings();
   const location = useLocation();
 
   // Branching: Isolate Admin interface layouts from school styling
   const isAdminRoute = location.pathname === '/admin' || location.pathname.startsWith('/admin/');
-
-  useEffect(() => {
-    if (!isAdminRoute) {
-      cmsApi.getSettings()
-        .then(setSettings)
-        .catch(err => console.error('Failed to load global settings in App:', err));
-    }
-  }, [isAdminRoute]);
 
   if (isAdminRoute) {
     return (
@@ -148,7 +141,9 @@ function App() {
   return (
     <Router>
       <ScrollToTop />
-      <AppContent />
+      <SettingsProvider>
+        <AppContent />
+      </SettingsProvider>
     </Router>
   );
 }

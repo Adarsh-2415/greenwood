@@ -241,15 +241,6 @@ const TransferCertificate = () => {
                       <div className="flex flex-wrap gap-3">
                         <a
                           href={searchResult.pdfUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 bg-school-deepRed text-white text-xs font-semibold py-2.5 px-5 rounded-full hover:bg-school-red transition-all duration-300"
-                        >
-                          <FiFileText className="w-3.5 h-3.5" />
-                          View PDF
-                        </a>
-                        <a
-                          href={searchResult.pdfUrl}
                           download
                           className="inline-flex items-center gap-2 bg-school-gold text-school-dark text-xs font-semibold py-2.5 px-5 rounded-full hover:bg-yellow-500 transition-all duration-300"
                         >
@@ -259,6 +250,17 @@ const TransferCertificate = () => {
                       </div>
                     </div>
                   </div>
+
+                  {/* Inline PDF Preview */}
+                  {searchResult.pdfUrl && (
+                    <div className="mt-8 w-full h-[500px] md:h-[600px] border border-emerald-100 rounded-2xl overflow-hidden shadow-inner bg-white">
+                      <iframe
+                        src={`${searchResult.pdfUrl}#toolbar=0`}
+                        title={`Transfer Certificate - ${searchResult.name}`}
+                        className="w-full h-full border-none"
+                      />
+                    </div>
+                  )}
                 </motion.div>
               )}
             </AnimatePresence>

@@ -20,12 +20,8 @@ export const SiteSettings = () => {
     setError('');
     try {
       const data = await adminApi.getSettings();
-      // Map array of {setting_key, setting_value} into a key-value object
-      const mapped = {};
-      data.forEach((s) => {
-        mapped[s.setting_key] = s.setting_value;
-      });
-      setSettings(mapped);
+      // adminApi.getSettings() already returns a key-value object
+      setSettings(data || {});
     } catch (err) {
       setError(err.message || 'Failed to fetch global settings');
     } finally {

@@ -2,14 +2,10 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { FiEye, FiTarget, FiAward, FiCheck } from 'react-icons/fi';
 import schoolImage from '../assets/school_image.jpg';
-import { cmsApi } from '../cms/api.js';
+import { useSettings } from '../contexts/SettingsContext.jsx';
 
 const About = () => {
-  const [settings, setSettings] = React.useState({});
-
-  React.useEffect(() => {
-    cmsApi.getSettings().then(setSettings).catch(console.error);
-  }, []);
+  const { settings } = useSettings();
 
   return (
     <div className="w-full flex-1">
@@ -44,7 +40,7 @@ const About = () => {
               transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
               className="font-serif text-4xl md:text-6xl font-bold tracking-tight mb-4 drop-shadow-md"
             >
-              About <span className="text-school-gold">Greenwood</span>
+              About <span className="text-green-400 drop-shadow-[0_4px_6px_rgba(0,0,0,0.9)]">Greenwood</span>
             </motion.h1>
 
             <motion.div
@@ -128,12 +124,12 @@ const About = () => {
           >
             <div className="relative w-full max-w-[360px] aspect-[4/5] bg-school-light border border-school-light/65 rounded-3xl overflow-hidden shadow-md">
               <img 
-                src={settings.principal_photo || "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1000"} 
-                alt="Principal Desk" 
+                src={settings.principal_photo || "/logo.jpeg"} 
+                alt="Principal" 
                 className="w-full h-full object-cover" 
               />
               <div className="absolute inset-0 bg-gradient-to-t from-school-deepRed/85 via-transparent to-transparent flex flex-col justify-end p-6 text-white text-left">
-                <span className="font-serif font-bold text-lg leading-tight">{settings.principal_name || "Dr. Sarah Greenwood"}</span>
+                <span className="font-serif font-bold text-lg leading-tight">{settings.principal_name || "The Principal"}</span>
                 <span className="text-xs text-school-gold/90 font-medium tracking-wider uppercase mt-1">Principal & Founder</span>
               </div>
             </div>
@@ -156,7 +152,7 @@ const About = () => {
             </h2>
             <div className="w-16 h-1 bg-school-gold rounded-full mb-6" />
             <p className="text-school-gray text-base font-light leading-relaxed mb-6">
-              "{settings.principal_message || "At Greenwood, we believe education is not merely the acquisition of facts, but the training of the mind to think critically, innovate fearlessly, and lead with empathy. Our mission is to provide an ecosystem where students discover their true potential and prepare themselves to make lasting contributions to society."}"
+              "{settings.principal_message || "At Greenwood, we believe education is not merely the acquisition of facts, but the training of the mind to think critically, innovate fearlessly, and lead with empathy."}"
             </p>
             <p className="text-school-gray text-base font-light leading-relaxed">
               We welcome you to experience our progressive curriculum, high-tech environments, and warm community where child protection and student development are our highest priorities.
@@ -184,7 +180,7 @@ const About = () => {
             </h2>
             <div className="w-16 h-1 bg-school-gold rounded-full mb-6" />
             <p className="text-school-gray text-base font-light leading-relaxed mb-6">
-              "{settings.trustee_message || "Value-based modern education has always been a dream. Education has to keep pace with the changing times, but should have the strong foundation based on our old value system. Keeping that fact in mind, this organization was started—to cater to the needs of persons who want to bring their children up with a difference."}"
+              "{settings.trustee_message || "Value-based modern education has always been a dream. Education has to keep pace with the changing times, but should have the strong foundation based on our old value system."}"
             </p>
             <p className="text-school-gray text-base font-light leading-relaxed">
               "Sheer academic proficiency cannot determine growth, because growth cannot signify physical growth only. The object of education is to prepare the young to educate themselves throughout their lives. The Greenwood is a school that has been started with the belief and hope that everyone's dream of making a holistic individual is made a reality, supported by a perfect learning environment."
@@ -201,12 +197,12 @@ const About = () => {
           >
             <div className="relative w-full max-w-[360px] aspect-[4/5] bg-school-light border border-school-light/65 rounded-3xl overflow-hidden shadow-md">
               <img 
-                src={settings.trustee_photo || "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1000"} 
-                alt="Trustee Desk" 
+                src={settings.trustee_photo || "/logo.jpeg"} 
+                alt="Trustee" 
                 className="w-full h-full object-cover" 
               />
               <div className="absolute inset-0 bg-gradient-to-t from-school-deepRed/85 via-transparent to-transparent flex flex-col justify-end p-6 text-white text-left">
-                <span className="font-serif font-bold text-lg leading-tight">{settings.trustee_name || "Shri. Rajesh Greenwood"}</span>
+                <span className="font-serif font-bold text-lg leading-tight">{settings.trustee_name || "The Trustee"}</span>
                 <span className="text-xs text-school-gold/90 font-medium tracking-wider uppercase mt-1">Trustee & Chairperson</span>
               </div>
             </div>

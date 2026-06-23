@@ -98,7 +98,9 @@ export const PageList = () => {
       p.slug.toLowerCase().includes(search.toLowerCase()) ||
       p.route.toLowerCase().includes(search.toLowerCase())) &&
       p.route !== '/about' &&
-      p.slug !== 'about'
+      p.slug !== 'about' &&
+      p.route !== '/contact' &&
+      p.slug !== 'contact'
   );
 
   return (

@@ -29,7 +29,7 @@ export const navigationLinks = [
   },
   {
     id: "administrator",
-    label: "Administrator",
+    label: "Administration",
     path: "#",
     hasDropdown: true,
     dropdownItems: [

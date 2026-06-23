@@ -14,7 +14,7 @@ const AdmissionBanner = () => {
             <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-school-gold"></span>
           </span>
           <p className="text-white text-xs md:text-sm font-medium tracking-wide">
-            Admissions Open From <span className="text-school-gold font-semibold">LKG</span> To <span className="text-school-gold font-semibold">Class XII</span>. For More Details.
+            Admissions Open From <span className="text-school-gold font-semibold">Nursery</span> To <span className="text-school-gold font-semibold">Class XII</span>. For More Details.
           </p>
         </div>
 

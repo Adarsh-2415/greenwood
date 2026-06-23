@@ -342,13 +342,21 @@ const Gallery = () => {
   useEffect(() => {
     const galleryBlock = blocks.find(b => b.block_type === 'gallery');
     if (galleryBlock && galleryBlock.data?.images && galleryBlock.data.images.length > 0) {
-      setItems(galleryBlock.data.images.map((img, i) => ({
-        id: i + 1,
-        src: img.url,
-        title: img.title || '',
-        description: img.description || '',
-        category: img.category || 'all'
-      })));
+      setItems(galleryBlock.data.images.map((img, i) => {
+        // Recover original category by matching filenames
+        const filename = img.url.split('/').pop();
+        const originalItem = galleryItems.find(item => 
+          filename.includes(item.src.split('/').pop())
+        );
+
+        return {
+          id: i + 1,
+          src: img.url,
+          title: img.title || '',
+          description: img.description || '',
+          category: originalItem ? originalItem.category : 'all'
+        };
+      }));
     } else {
       setItems(galleryItems);
     }

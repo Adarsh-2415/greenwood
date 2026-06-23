@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { cmsApi } from '../cms/api.js';
+import { useSettings } from '../contexts/SettingsContext.jsx';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiChevronLeft, FiChevronRight, FiArrowRight, FiBookOpen, FiCompass, FiAward } from 'react-icons/fi';
 import schoolImage from '../assets/school_image.jpg';
@@ -40,11 +40,7 @@ const SLIDER_IMAGES = [
 
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [settings, setSettings] = useState({});
-
-  useEffect(() => {
-    cmsApi.getSettings().then(setSettings).catch(console.error);
-  }, []);
+  const { settings } = useSettings();
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -107,7 +103,7 @@ const Home = () => {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="font-serif text-4xl md:text-6xl font-bold tracking-tight mb-6 leading-tight drop-shadow-md"
             >
-              Welcome to <span className="text-school-gold">The Greenwood</span> <br className="hidden md:inline" /> Public School
+              Welcome to <br /> <span className="text-green-400 drop-shadow-[0_4px_6px_rgba(0,0,0,0.9)] md:whitespace-nowrap">The Greenwood Public School</span>
             </motion.h1>
 
             <motion.p
@@ -183,7 +179,8 @@ const Home = () => {
           className="max-w-4xl mx-auto px-4 md:px-8 text-center"
         >
           <h2 className="font-serif text-3xl md:text-4xl font-bold text-school-deepRed mb-3 leading-tight tracking-tight">
-            Welcome To GreenWood Public School, Roorkee
+            Welcome To <br />
+            <span className="text-green-600">The Greenwood Public School</span>, Roorkee
           </h2>
           <span className="text-school-gray text-xs md:text-sm font-semibold tracking-wide block mb-6">
             [Affiliated to CBSE Board, Affiliation No: 3530551,School No:81971]
@@ -209,12 +206,12 @@ const Home = () => {
           >
             <div className="relative w-full max-w-[360px] aspect-[4/5] bg-school-light border border-school-light/65 rounded-3xl overflow-hidden shadow-md">
               <img 
-                src={settings.principal_photo || "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1000"} 
-                alt="Principal Desk" 
+                src={settings.principal_photo || "/logo.jpeg"} 
+                alt="Principal" 
                 className="w-full h-full object-cover" 
               />
               <div className="absolute inset-0 bg-gradient-to-t from-school-deepRed/85 via-transparent to-transparent flex flex-col justify-end p-6 text-white">
-                <span className="font-serif font-bold text-lg leading-tight">{settings.principal_name || "Dr. Sarah Greenwood"}</span>
+                <span className="font-serif font-bold text-lg leading-tight">{settings.principal_name || "The Principal"}</span>
                 <span className="text-xs text-school-gold/90 font-medium tracking-wider uppercase mt-1">Principal & Founder</span>
               </div>
             </div>
@@ -237,7 +234,7 @@ const Home = () => {
             </h2>
             <div className="w-16 h-1 bg-school-gold rounded-full mb-6" />
             <p className="text-school-gray text-base font-light leading-relaxed mb-6">
-              "{settings.principal_message || "At Greenwood, we believe education is not merely the acquisition of facts, but the training of the mind to think critically, innovate fearlessly, and lead with empathy. Our mission is to provide an ecosystem where students discover their true potential and prepare themselves to make lasting contributions to society."}"
+              "{settings.principal_message || "At Greenwood, we believe education is not merely the acquisition of facts, but the training of the mind to think critically, innovate fearlessly, and lead with empathy."}"
             </p>
             <p className="text-school-gray text-base font-light leading-relaxed">
               We welcome you to experience our progressive curriculum, high-tech environments, and warm community where child protection and student development are our highest priorities.

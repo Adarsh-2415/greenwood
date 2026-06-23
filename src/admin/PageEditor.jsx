@@ -127,7 +127,23 @@ export const PageEditor = () => {
   // Block CRUD updates
   const handleAddBlock = async (type) => {
     try {
-      await adminApi.addBlock(id, type, {});
+      const defaultData = {
+        text: { heading: 'New Text Block', body: '<p>Add your paragraph here...</p>', alignment: 'left' },
+        image: { url: 'https://via.placeholder.com/800x400?text=Upload+Image', caption: 'Image caption here', alignment: 'center' },
+        gallery: { title: 'New Photo Gallery', columns: 3, images: [] },
+        pdf: { title: 'Document Title', description: 'Description of the document', url: '' },
+        video: { title: 'Video Title', description: 'Video description', url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
+        cards: { title: 'Information Cards', columns: 3, cards: [{ title: 'Card 1', description: 'Desc 1', link: '#' }] },
+        faculty: { title: 'Faculty Members', members: [{ name: 'John Doe', designation: 'Teacher', qualification: 'M.Sc.' }] },
+        stats: { items: [{ number: '100+', label: 'Students' }, { number: '50+', label: 'Teachers' }] },
+        table: { headers: ['Column 1', 'Column 2'], rows: [['Data 1', 'Data 2']] },
+        notice: { title: 'Important Notice', date: new Date().toLocaleDateString(), body: '<p>Notice details...</p>', type: 'info' },
+        downloads: { title: 'Downloads', files: [{ title: 'Document.pdf', url: '#', size: '1MB' }] },
+        cta: { title: 'Call To Action', text: 'Engaging text goes here.', buttonText: 'Click Here', buttonLink: '#' },
+        spacer: { height: 40 }
+      };
+
+      await adminApi.addBlock(id, type, defaultData[type] || {});
       fetchPageDetails();
     } catch (err) {
       alert(err.message || 'Failed to add block');
@@ -412,14 +428,44 @@ export const PageEditor = () => {
                 <h3 className="font-serif text-lg font-bold text-gray-800">Photo Gallery Manager</h3>
                 <p className="text-xs text-gray-400 font-medium mt-0.5">Manage and organize all images displayed on the public Gallery page.</p>
               </div>
-              <button
-                type="button"
-                onClick={() => triggerMediaPicker('gallery_add')}
-                className="flex items-center justify-center gap-1.5 px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-gray-900 font-bold text-xs uppercase tracking-wider rounded-xl transition-colors cursor-pointer shadow-md shadow-amber-500/10"
-              >
-                <FiPlus className="w-4 h-4" />
-                <span>Add New Image</span>
-              </button>
+              <div className="flex flex-wrap items-center gap-3">
+                <button
+                  type="button"
+                  onClick={async () => {
+                    if (!window.confirm("This will pull all images from your Media Library into this Gallery page. Continue?")) return;
+                    try {
+                      const res = await adminApi.listMedia('', 'gallery');
+                      const newImages = res.media.map(m => ({
+                        url: m.file_url,
+                        title: m.original_name.replace(/_/g, ' ').replace(/\.[^/.]+$/, ""),
+                        description: ''
+                      }));
+                      const galleryBlock = blocks.find(b => b.block_type === 'gallery');
+                      if (galleryBlock) {
+                        await adminApi.updateBlock(galleryBlock.id, { ...galleryBlock.data, images: newImages });
+                      } else {
+                        await adminApi.addBlock(page.id, 'gallery', { title: 'Photo Gallery', columns: 3, images: newImages });
+                      }
+                      fetchPageDetails();
+                      alert("Successfully pulled images! You can now manage them below.");
+                    } catch(err) {
+                      alert("Sync failed: " + err.message);
+                    }
+                  }}
+                  className="flex items-center justify-center gap-1.5 px-5 py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-colors cursor-pointer shadow-sm"
+                >
+                  <FiRefreshCw className="w-4 h-4 text-amber-400" />
+                  <span>Pull from Media</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => triggerMediaPicker('gallery_add')}
+                  className="flex items-center justify-center gap-1.5 px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-gray-900 font-bold text-xs uppercase tracking-wider rounded-xl transition-colors cursor-pointer shadow-md shadow-amber-500/10"
+                >
+                  <FiPlus className="w-4 h-4" />
+                  <span>Add New Image</span>
+                </button>
+              </div>
             </div>
 
             {/* Gallery Image Grid */}
