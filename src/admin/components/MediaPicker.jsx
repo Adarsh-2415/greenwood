@@ -42,33 +42,45 @@ export const MediaPicker = ({ isOpen, onClose, onSelect, categoryFilter = '' }) 
     if (!files || files.length === 0) return;
 
     setUploading(true);
+    let firstUploadedFile = null;
+
     try {
-      const formData = new FormData();
-      formData.append('files', files[0]);
-      formData.append('category', category || 'other');
-      
-      const res = await adminApi.uploadMedia(formData);
-      if (res && res.id) {
-        // Map the single file object response format
-        const uploadedFile = {
-          id: res.id,
-          filename: res.filename,
-          original_name: res.original_name,
-          file_url: res.file_url,
-          file_size: res.file_size,
-          file_type: files[0].type || 'application/pdf',
-          file_extension: res.filename.split('.').pop(),
-          category: category || 'other',
-          created_at: new Date().toISOString()
-        };
-        // Automatically select newly uploaded file
-        setSelectedFile(uploadedFile);
-        // Refresh library list
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const formData = new FormData();
+        formData.append('files', file);
+        formData.append('category', category || 'other');
+
+        try {
+          const res = await adminApi.uploadMedia(formData);
+          if (res && res.id) {
+            const uploadedFile = {
+              id: res.id,
+              filename: res.filename,
+              original_name: res.original_name,
+              file_url: res.file_url,
+              file_size: res.file_size,
+              file_type: file.type || 'application/pdf',
+              file_extension: res.filename.split('.').pop(),
+              category: category || 'other',
+              created_at: new Date().toISOString()
+            };
+            if (!firstUploadedFile) {
+              firstUploadedFile = uploadedFile;
+            }
+          }
+        } catch (fileErr) {
+          console.error(`Failed to upload file ${file.name}:`, fileErr);
+          alert(`Failed to upload ${file.name}: ${fileErr.message}`);
+        }
+      }
+
+      if (firstUploadedFile) {
+        // Automatically select the first successfully uploaded file in batch
+        setSelectedFile(firstUploadedFile);
         setPage(1);
         await fetchMedia();
       }
-    } catch (err) {
-      alert(err.message || 'File upload failed');
     } finally {
       setUploading(false);
     }
@@ -142,6 +154,7 @@ export const MediaPicker = ({ isOpen, onClose, onSelect, categoryFilter = '' }) 
                 type="file"
                 onChange={handleUpload}
                 disabled={uploading}
+                multiple
                 className="hidden"
                 accept={
                   category === 'image' ? 'image/*' :

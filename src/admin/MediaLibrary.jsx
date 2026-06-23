@@ -41,15 +41,21 @@ export const MediaLibrary = () => {
 
     setUploading(true);
     try {
-      const formData = new FormData();
-      formData.append('files', files[0]);
-      formData.append('category', category || 'other');
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const formData = new FormData();
+        formData.append('files', file);
+        formData.append('category', category || 'other');
 
-      await adminApi.uploadMedia(formData);
+        try {
+          await adminApi.uploadMedia(formData);
+        } catch (fileErr) {
+          console.error(`Failed to upload ${file.name}:`, fileErr);
+          alert(`Failed to upload ${file.name}: ${fileErr.message}`);
+        }
+      }
       setPage(1);
-      fetchMedia();
-    } catch (err) {
-      alert(err.message || 'Failed to upload media file');
+      await fetchMedia();
     } finally {
       setUploading(false);
     }
@@ -119,6 +125,7 @@ export const MediaLibrary = () => {
               type="file"
               onChange={handleUpload}
               disabled={uploading}
+              multiple
               className="hidden"
               accept="*"
             />
