@@ -5,7 +5,7 @@ const AdmissionBanner = () => {
   return (
     <div className="w-full bg-gradient-to-r from-school-deepRed via-school-red to-school-deepRed border-t-2 border-school-gold/40">
       <div className="max-w-7xl mx-auto px-4 md:px-8 py-3.5 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-6">
-        
+
         {/* Left: Announcement Text */}
         <div className="flex items-center gap-3 text-center sm:text-left">
           {/* Pulsing dot indicator */}
@@ -14,7 +14,7 @@ const AdmissionBanner = () => {
             <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-school-gold"></span>
           </span>
           <p className="text-white text-xs md:text-sm font-medium tracking-wide">
-            Admissions Open From <span className="text-school-gold font-semibold">LKG</span> To <span className="text-school-gold font-semibold">Class X</span>. For More Details.
+            Admissions Open From <span className="text-school-gold font-semibold">LKG</span> To <span className="text-school-gold font-semibold">Class XII</span>. For More Details.
           </p>
         </div>
 
