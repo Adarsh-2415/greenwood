@@ -28,7 +28,6 @@ import PageEditor from './admin/PageEditor.jsx';
 import MediaLibrary from './admin/MediaLibrary.jsx';
 import CertificateManager from './admin/CertificateManager.jsx';
 import SiteSettings from './admin/SiteSettings.jsx';
-import BackupRestore from './admin/BackupRestore.jsx';
 import ContactSubmissions from './admin/ContactSubmissions.jsx';
 import ResetPassword from './admin/ResetPassword.jsx';
 import ChangePassword from './admin/ChangePassword.jsx';
@@ -83,7 +82,6 @@ const AppContent = () => {
           <Route path="media" element={<MediaLibrary />} />
           <Route path="certificates" element={<CertificateManager />} />
           <Route path="settings" element={<SiteSettings />} />
-          <Route path="backups" element={<BackupRestore />} />
           <Route path="contact-submissions" element={<ContactSubmissions />} />
           <Route path="change-password" element={<ChangePassword />} />
         </Route>
