@@ -1,3 +1,0 @@
-# Prevent direct public access to database backup files
-Order Deny,Allow
-Deny from all
