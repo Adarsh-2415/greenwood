@@ -62,7 +62,7 @@ export const BackupRestore = () => {
               <li>Navigate to the **Table Editor** or **SQL Editor**.</li>
               <li>Use the database settings or the command line utility `pg_dump` to export tables:
                 <pre className="bg-gray-900 text-amber-400 p-3 rounded-xl font-mono text-[10px] mt-2 select-all overflow-x-auto">
-                  pg_dump -H db.shsoxgdmatrldwfinlkc.supabase.co -U postgres > backup.sql
+                  pg_dump -H db.shsoxgdmatrldwfinlkc.supabase.co -U postgres &gt; backup.sql
                 </pre>
               </li>
               <li>Restores can be performed by running SQL scripts inside the **SQL Editor** panel in Supabase.</li>
