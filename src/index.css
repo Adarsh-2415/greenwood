@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-school-red: #DF2531;
+  --color-school-deepRed: #A61B24;
+  --color-school-gold: #D4AF37;
+  --color-school-dark: #111111;
+  --color-school-gray: #4B5563;
+  --color-school-light: #F8F9FA;
+  --font-poppins: 'Poppins', sans-serif;
+}
+
+@layer base {
+  body {
+    @apply font-poppins text-school-dark bg-white antialiased overflow-x-hidden;
+  }
+}
+
+/* Premium school styled scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F8F9FA;
+}
+::-webkit-scrollbar-thumb {
+  background: #A61B24;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #DF2531;
+}
+
+/* Global active and animation properties */
+.glass-nav {
+  background-color: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.text-xxs {
+  font-size: 0.65rem;
+}
+.text-xxs-uppercase {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+}
