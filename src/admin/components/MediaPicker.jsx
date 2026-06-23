@@ -48,12 +48,24 @@ export const MediaPicker = ({ isOpen, onClose, onSelect, categoryFilter = '' }) 
       formData.append('category', category || 'other');
       
       const res = await adminApi.uploadMedia(formData);
-      if (res.uploaded && res.uploaded.length > 0) {
+      if (res && res.id) {
+        // Map the single file object response format
+        const uploadedFile = {
+          id: res.id,
+          filename: res.filename,
+          original_name: res.original_name,
+          file_url: res.file_url,
+          file_size: res.file_size,
+          file_type: files[0].type || 'application/pdf',
+          file_extension: res.filename.split('.').pop(),
+          category: category || 'other',
+          created_at: new Date().toISOString()
+        };
         // Automatically select newly uploaded file
-        setSelectedFile(res.uploaded[0]);
+        setSelectedFile(uploadedFile);
         // Refresh library list
         setPage(1);
-        fetchMedia();
+        await fetchMedia();
       }
     } catch (err) {
       alert(err.message || 'File upload failed');
