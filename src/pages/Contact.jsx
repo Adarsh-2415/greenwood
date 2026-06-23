@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FiMail, FiPhoneCall, FiMapPin, FiSend, FiCheckCircle, FiAlertCircle, FiRefreshCw } from 'react-icons/fi';
 import { contactInfo } from '../components/navigation/NavigationConfig';
 import { cmsApi } from '../cms/api.js';
+import emailjs from '@emailjs/browser';
 
 const Contact = () => {
   const [settings, setSettings] = useState({});
@@ -162,7 +163,26 @@ const Contact = () => {
 
     setIsSubmitting(true);
     try {
+      // 1. Submit to Supabase Database
       await cmsApi.submitContact(formData);
+      
+      // 2. Send Email alert via EmailJS
+      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_default';
+      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || '';
+      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || '';
+
+      if (templateId && publicKey) {
+        const emailParams = {
+          from_name: formData.name,
+          from_email: formData.email,
+          phone: formData.phone,
+          subject: formData.subject,
+          message: formData.message,
+          to_email: email // Sends to dynamic admin email from database settings
+        };
+        await emailjs.send(serviceId, templateId, emailParams, publicKey);
+      }
+
       setIsSuccess(true);
     } catch (err) {
       alert(err.message || 'Failed to submit contact query. Please try again.');
