@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { SettingsProvider, useSettings } from './contexts/SettingsContext.jsx';
+import { HelmetProvider } from 'react-helmet-async';
 
 // Public Components & Pages
 import Header from './components/navigation/Header';
@@ -137,12 +138,14 @@ const AppContent = () => {
 
 function App() {
   return (
-    <Router>
-      <ScrollToTop />
-      <SettingsProvider>
-        <AppContent />
-      </SettingsProvider>
-    </Router>
+    <HelmetProvider>
+      <Router>
+        <ScrollToTop />
+        <SettingsProvider>
+          <AppContent />
+        </SettingsProvider>
+      </Router>
+    </HelmetProvider>
   );
 }
 

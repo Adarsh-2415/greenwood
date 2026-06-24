@@ -4,6 +4,7 @@ import { useSettings } from '../contexts/SettingsContext.jsx';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiChevronLeft, FiChevronRight, FiArrowRight, FiBookOpen, FiCompass, FiAward } from 'react-icons/fi';
 import schoolImage from '../assets/school_image.jpg';
+import SEO from '../components/seo/SEO';
 import s1 from '../assets/S1.jpg';
 import s2 from '../assets/S2.jpg';
 import s3 from '../assets/S3.jpg';
@@ -57,8 +58,43 @@ const Home = () => {
     setCurrentSlide((prev) => (prev + 1) % SLIDER_IMAGES.length);
   };
 
+  // Structured Data for the Home Page
+  const homeSchema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "name": "The Greenwood Public School",
+        "url": "https://www.greenwoodroorkee.org"
+      },
+      {
+        "@type": "EducationalOrganization",
+        "name": "The Greenwood Public School",
+        "url": "https://www.greenwoodroorkee.org",
+        "logo": "https://www.greenwoodroorkee.org/logo.jpeg",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+91-8755195353",
+          "contactType": "Admissions Office"
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Chudiyala Railway Station",
+          "addressLocality": "Roorkee",
+          "addressRegion": "Uttarakhand",
+          "postalCode": "247667",
+          "addressCountry": "IN"
+        }
+      }
+    ]
+  };
+
   return (
     <div className="w-full flex-1">
+      <SEO 
+        title="Home"
+        schema={homeSchema}
+      />
       {/* HERO SECTION WITH BG SLIDER */}
       <section className="relative w-full h-[75vh] md:h-[80vh] min-h-[500px] overflow-hidden bg-black select-none">
 

@@ -1,5 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import SEO from '../components/seo/SEO';
+import Breadcrumbs from '../components/seo/Breadcrumbs';
 import usePageContent from '../cms/hooks/usePageContent.js';
 import BlockRenderer from '../cms/blocks/BlockRenderer.jsx';
 
@@ -7,7 +9,12 @@ const MandatoryDisclosures = () => {
   const { page, blocks, loading, error } = usePageContent('mandatory-disclosures');
 
   return (
-    <div className="w-full flex-1">
+    <div className="w-full flex-1 bg-gray-50/50">
+      <SEO 
+        title="Mandatory Public Disclosures"
+        description="View the mandatory public disclosures, school certificates, and official documentation for The Greenwood Public School as per CBSE guidelines."
+      />
+      <Breadcrumbs paths={[{ label: 'Home', url: '/' }, { label: 'Mandatory Disclosures', url: '/mandatory-disclosures' }]} />
       {/* HERO SECTION */}
       <section className="relative w-full h-[35vh] min-h-[280px] overflow-hidden bg-school-deepRed flex items-center justify-center border-b-4 border-school-gold">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(212,175,55,0.15),transparent_40%)]" />

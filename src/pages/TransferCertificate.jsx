@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import SEO from '../components/seo/SEO';
+import Breadcrumbs from '../components/seo/Breadcrumbs';
 import { FiSearch, FiDownload, FiFileText, FiUser, FiCalendar, FiAlertCircle, FiXCircle } from 'react-icons/fi';
 import { cmsApi } from '../cms/api.js';
 
@@ -53,6 +55,11 @@ const TransferCertificate = () => {
 
   return (
     <div className="w-full flex-1">
+      <SEO 
+        title="Transfer Certificate"
+        description="Search and download your official Transfer Certificate from The Greenwood Public School online portal."
+      />
+      <Breadcrumbs paths={[{ label: 'Home', url: '/' }, { label: 'Transfer Certificate', url: '/transfer-certificate' }]} />
       {/* HERO SECTION */}
       <section className="relative w-full h-[35vh] min-h-[280px] overflow-hidden bg-school-deepRed flex items-center justify-center border-b-4 border-school-gold">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(212,175,55,0.15),transparent_40%)]" />

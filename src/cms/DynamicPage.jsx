@@ -1,6 +1,8 @@
 // src/cms/DynamicPage.jsx
 import React, { useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
+import SEO from '../components/seo/SEO';
+import Breadcrumbs from '../components/seo/Breadcrumbs';
 import usePageContent from './hooks/usePageContent.js';
 import BlockRenderer from './blocks/BlockRenderer.jsx';
 
@@ -57,6 +59,25 @@ export const DynamicPage = () => {
     }
   }, [page]);
 
+  const generateBreadcrumbs = () => {
+    const paths = [{ label: 'Home', url: '/' }];
+    const segments = location.pathname.split('/').filter(Boolean);
+    let currentPath = '';
+    
+    segments.forEach((segment) => {
+      currentPath += `/${segment}`;
+      const label = segment.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+      paths.push({ label, url: currentPath });
+    });
+    
+    // Override the last segment label with the actual page title if available
+    if (page?.title && paths.length > 1) {
+      paths[paths.length - 1].label = page.title;
+    }
+    
+    return paths;
+  };
+
   if (loading) {
     return (
       <div className="w-full min-h-[60vh] flex flex-col items-center justify-center py-20 px-4">
@@ -88,6 +109,11 @@ export const DynamicPage = () => {
 
   return (
     <div className="w-full flex-1 flex flex-col">
+      <SEO 
+        title={page?.title || "Page"}
+        description={page?.title ? `Information regarding ${page.title} at The Greenwood Public School.` : undefined}
+      />
+      <Breadcrumbs paths={generateBreadcrumbs()} />
       {/* Dynamic Hero Section */}
       {page.hero_title && (
         <section className="relative w-full py-16 md:py-24 bg-slate-900 text-white overflow-hidden select-none">

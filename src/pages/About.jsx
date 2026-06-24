@@ -1,5 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import SEO from '../components/seo/SEO';
+import Breadcrumbs from '../components/seo/Breadcrumbs';
 import { FiEye, FiTarget, FiAward, FiCheck } from 'react-icons/fi';
 import schoolImage from '../assets/school_image.jpg';
 import { useSettings } from '../contexts/SettingsContext.jsx';
@@ -9,6 +11,11 @@ const About = () => {
 
   return (
     <div className="w-full flex-1">
+      <SEO 
+        title="About Us"
+        description="Learn about The Greenwood Public School, our mission, vision, and core values dedicated to academic excellence."
+      />
+      <Breadcrumbs paths={[{ label: 'Home', url: '/' }, { label: 'About Us', url: '/about' }]} />
       {/* HERO SECTION WITH STATIC BG IMAGE & ENTRANCE ANIMATION */}
       <section className="relative w-full h-[50vh] md:h-[60vh] min-h-[350px] overflow-hidden bg-black select-none">
         

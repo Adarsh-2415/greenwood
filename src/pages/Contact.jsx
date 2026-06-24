@@ -4,6 +4,9 @@ import { FiMail, FiPhoneCall, FiMapPin, FiSend, FiCheckCircle, FiAlertCircle, Fi
 import { contactInfo } from '../components/navigation/NavigationConfig';
 import { useSettings } from '../contexts/SettingsContext.jsx';
 import emailjs from '@emailjs/browser';
+import SEO from '../components/seo/SEO';
+import Breadcrumbs from '../components/seo/Breadcrumbs';
+import { cmsApi } from '../cms/api.js';
 
 const Contact = () => {
   const { settings } = useSettings();
@@ -207,6 +210,11 @@ const Contact = () => {
 
   return (
     <div className="w-full flex-1">
+      <SEO 
+        title="Contact Us"
+        description="Get in touch with The Greenwood Public School administration. Find our location, phone numbers, and admission inquiries."
+      />
+      <Breadcrumbs paths={[{ label: 'Home', url: '/' }, { label: 'Contact Us', url: '/contact' }]} />
       {/* HERO SECTION WITH SOLID BG & ENTRANCE ANIMATION */}
       <section className="relative w-full h-[35vh] min-h-[280px] overflow-hidden bg-school-deepRed flex items-center justify-center border-b-4 border-school-gold">
 

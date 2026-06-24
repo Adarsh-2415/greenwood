@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiMaximize2, FiX, FiChevronLeft, FiChevronRight, FiGrid, FiCamera } from 'react-icons/fi';
 import usePageContent from '../cms/hooks/usePageContent.js';
+import SEO from '../components/seo/SEO';
+import Breadcrumbs from '../components/seo/Breadcrumbs';
 
 // Categories definitions
 const categories = [
@@ -412,6 +414,11 @@ const Gallery = () => {
 
   return (
     <div className="w-full flex-1">
+      <SEO 
+        title="School Gallery"
+        description="Explore the state-of-the-art campus, classrooms, sports facilities, and cultural events at The Greenwood Public School."
+      />
+      <Breadcrumbs paths={[{ label: 'Home', url: '/' }, { label: 'Gallery', url: '/gallery' }]} />
       
       {/* HERO SECTION */}
       <section className="relative w-full h-[35vh] min-h-[250px] bg-school-deepRed flex items-center justify-center select-none border-b-4 border-school-gold overflow-hidden">
