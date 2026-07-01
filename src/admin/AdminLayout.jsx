@@ -26,10 +26,14 @@ export const AdminLayout = () => {
 
   // Protected Route Logic
   useEffect(() => {
-    if (!loading && !isAuthenticated) {
-      navigate('/admin/login');
+    if (!loading) {
+      if (!isAuthenticated) {
+        navigate('/admin/login');
+      } else if (user?.role === 'tc_operator') {
+        navigate('/admin/tc-panel');
+      }
     }
-  }, [loading, isAuthenticated, navigate]);
+  }, [loading, isAuthenticated, user, navigate]);
 
   if (loading) {
     return (

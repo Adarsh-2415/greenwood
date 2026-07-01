@@ -23,6 +23,7 @@ import DynamicPage from './cms/DynamicPage.jsx';
 // Admin Console Components
 import AdminLogin from './admin/AdminLogin.jsx';
 import AdminLayout from './admin/AdminLayout.jsx';
+import TCOperatorLayout from './admin/TCOperatorLayout.jsx';
 import AdminDashboard from './admin/AdminDashboard.jsx';
 import PageList from './admin/PageList.jsx';
 import PageEditor from './admin/PageEditor.jsx';
@@ -76,6 +77,7 @@ const AppContent = () => {
       <Routes>
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/reset-password" element={<ResetPassword />} />
+        <Route path="/admin/tc-panel" element={<TCOperatorLayout />} />
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<AdminDashboard />} />
           <Route path="pages" element={<PageList />} />

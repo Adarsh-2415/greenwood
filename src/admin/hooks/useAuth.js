@@ -17,7 +17,7 @@ export const useAuth = () => {
           id: session.user.id,
           name: session.user.email.split('@')[0],
           email: session.user.email,
-          role: 'super_admin'
+          role: session.user.user_metadata?.role || 'super_admin'
         });
       }
       setLoading(false);
@@ -31,7 +31,7 @@ export const useAuth = () => {
           id: session.user.id,
           name: session.user.email.split('@')[0],
           email: session.user.email,
-          role: 'super_admin'
+          role: session.user.user_metadata?.role || 'super_admin'
         });
       } else {
         setToken(null);

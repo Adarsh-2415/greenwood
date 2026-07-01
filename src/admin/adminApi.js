@@ -42,7 +42,7 @@ export const adminApi = {
         id: data.user.id,
         name: data.user.email.split('@')[0],
         email: data.user.email,
-        role: 'super_admin'
+        role: data.user.user_metadata?.role || 'super_admin'
       }
     };
 
@@ -61,7 +61,7 @@ export const adminApi = {
         id: user.id,
         name: user.email.split('@')[0],
         email: user.email,
-        role: 'super_admin'
+        role: user.user_metadata?.role || 'super_admin'
       }
     };
   },

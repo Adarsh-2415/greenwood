@@ -26,9 +26,13 @@ export const AdminLogin = () => {
     }
 
     try {
-      await login(email, password);
-      // Success, go to dashboard
-      navigate('/admin');
+      const loggedUser = await login(email, password);
+      // Success, route based on role
+      if (loggedUser?.role === 'tc_operator') {
+        navigate('/admin/tc-panel');
+      } else {
+        navigate('/admin');
+      }
       // Force reload to update Layout auth state if needed
       window.location.reload();
     } catch (err) {
