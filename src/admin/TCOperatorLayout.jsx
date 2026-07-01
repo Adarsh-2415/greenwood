@@ -1,13 +1,15 @@
 // src/admin/TCOperatorLayout.jsx
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuth from './hooks/useAuth.js';
 import CertificateManager from './CertificateManager.jsx';
-import { FiLogOut, FiAward } from 'react-icons/fi';
+import ChangePassword from './ChangePassword.jsx';
+import { FiLogOut, FiAward, FiLock } from 'react-icons/fi';
 
 const TCOperatorLayout = () => {
   const { user, loading, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState('certificates');
 
   // Role verification and protected access guard
   useEffect(() => {
@@ -74,15 +76,51 @@ const TCOperatorLayout = () => {
         </div>
       </header>
 
+      {/* TABS / NAVIGATION */}
+      <div className="w-full bg-white border-b border-gray-200 shadow-sm">
+        <div className="max-w-7xl mx-auto px-6 md:px-8 flex gap-6">
+          <button
+            onClick={() => setActiveTab('certificates')}
+            className={`py-4 border-b-2 font-semibold text-xs tracking-wider uppercase cursor-pointer transition-all ${
+              activeTab === 'certificates'
+                ? 'border-amber-500 text-slate-900'
+                : 'border-transparent text-gray-500 hover:text-slate-800'
+            }`}
+          >
+            Transfer Certificates
+          </button>
+          <button
+            onClick={() => setActiveTab('password')}
+            className={`py-4 border-b-2 font-semibold text-xs tracking-wider uppercase cursor-pointer transition-all ${
+              activeTab === 'password'
+                ? 'border-amber-500 text-slate-900'
+                : 'border-transparent text-gray-500 hover:text-slate-800'
+            }`}
+          >
+            Change Password
+          </button>
+        </div>
+      </div>
+
       {/* DEDICATED WORKSPACE */}
       <main className="flex-1 p-6 md:p-8 max-w-7xl w-full mx-auto">
-        <div className="mb-6 flex items-center gap-2 text-slate-650">
-          <FiAward className="w-5 h-5 text-amber-500" />
-          <span className="text-sm font-semibold tracking-wide uppercase">Transfer Certificate Management</span>
-        </div>
-        
-        {/* Reusing existing CertificateManager component directly */}
-        <CertificateManager />
+        {activeTab === 'certificates' ? (
+          <>
+            <div className="mb-6 flex items-center gap-2 text-slate-650">
+              <FiAward className="w-5 h-5 text-amber-500" />
+              <span className="text-sm font-semibold tracking-wide uppercase">Transfer Certificate Management</span>
+            </div>
+            <CertificateManager />
+          </>
+        ) : (
+          <>
+            <div className="mb-6 flex items-center gap-2 text-slate-650">
+              <FiLock className="w-5 h-5 text-amber-500" />
+              <span className="text-sm font-semibold tracking-wide uppercase">Security Settings</span>
+            </div>
+            <ChangePassword />
+          </>
+        )}
       </main>
     </div>
   );
